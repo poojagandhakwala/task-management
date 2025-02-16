@@ -11,7 +11,7 @@ const Sidebar = ({ isOpen }: SidebarProps) => {
         { title: "Dashboard", icon: FaCompass },
         { title: "Users", icon: FaUsers },
         { title: "Tasks", icon: FaTasks},
-        { title: "Usage data", icon: FaCogs },
+        { title: "Analysis", icon: FaCogs },
         { title: "Server list", icon: FaServer }
       ];
 

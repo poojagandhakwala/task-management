@@ -7,6 +7,7 @@ interface Task {
   isPending: boolean;
   inProgress: boolean;
   isCompleted: boolean;
+  createdAt:Date
 }
 
 const initialState = {
@@ -21,6 +22,7 @@ const taskSlice = createSlice({
   reducers: {
     addTask: (state, action: PayloadAction<Task>) => {
       action.payload.id =  state.taskList.length ;
+      action.payload.createdAt=new Date();
       state.taskList.push(action.payload);
       state.pending = state.pending + 1;
     },

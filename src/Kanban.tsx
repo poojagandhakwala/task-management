@@ -96,7 +96,7 @@ const KanbanCard = ({
             role="button"
             onClick={() => {
               dispatch(removeTask(index));
-              toast.error("Task Deleted Successfully!");
+              toast.error("Task Deleted Successfully!",{id:index.toString()});
             }}
           />
         </div>

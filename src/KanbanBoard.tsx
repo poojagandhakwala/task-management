@@ -37,17 +37,34 @@ export default function KanbanBoard() {
     //   ...uItems,
     //   { id:0,title, desc, isPending: true, inProgress: false, isCompleted: false },
     // ]);
-    dispatch(
-      addTask({
-        id: 0,
-        title,
-        desc,
-        isPending: true,
-        inProgress: false,
-        isCompleted: false,
-      })
-    );
-    toast.success("Task added successfully");
+    if (!title || !desc) {
+      toast("Please add Title and Description!", { icon: "⚠️" });
+    } else {
+      toast.promise(
+        new Promise((resolve) =>
+            setTimeout(()=>{dispatch(
+              addTask({
+                id: 0,
+                title,
+                desc,
+                isPending: true,
+                inProgress: false,
+                isCompleted: false,
+                createdAt: new Date(),
+              })
+            
+            )
+            resolve("Task added")
+          },1000
+          )
+        ),
+        {
+          loading: "Adding...",
+          success: "Task added successfully",
+          error: "Error while adding task!",
+        }
+      );
+    }
   };
 
   return (

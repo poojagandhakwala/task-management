@@ -7,8 +7,8 @@ const Layout = () => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
 
   return (
-    <div className="flex flex-row !w-full">
-      <div className="!w-40">
+    <div className="flex flex-row !w-screen">
+      <div className="!w-40 !h-screen !fixed">
         <Sidebar isOpen={isOpen} />
         <div className=" ">
           <BsArrowLeftCircleFill
@@ -17,7 +17,7 @@ const Layout = () => {
           />
         </div>
       </div>
-      <div className="!w-full">
+      <div className="!w-full !ml-40 !h-screen !overflow-y-auto">
         <Outlet />
       </div>
     </div>
