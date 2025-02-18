@@ -1,7 +1,6 @@
 import { Table } from "@chakra-ui/react";
 import { useMemo, useState } from "react";
 import { useSelector } from "react-redux";
-
 import {
   LineChart,
   Line,
@@ -14,52 +13,12 @@ import {
   DefaultLegendContent,
 } from "recharts";
 
-const data = [
-  {
-    name: "Page A",
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: "Page B",
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: "Page C",
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: "Page D",
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: "Page E",
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    name: "Page F",
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: "Page G",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-];
+interface ProcessedData {
+  title: string;
+  hours: number;
+}
 
-const Charts = () => {
+const Analysis = () => {
   const taskData = useSelector((state: any) => state.tasks.taskList) || [];
 
   const taskDataSample = [
@@ -154,7 +113,8 @@ const Charts = () => {
   ];
 
   const [filter, setFilter] = useState("all");
-  const processedData = useMemo(() => {
+  const processedData: Array<ProcessedData> = useMemo(() => {
+    console.log("in usememo");
     return taskData
       .filter((item: any) => {
         if (filter === "all" || !filter) {
@@ -182,18 +142,23 @@ const Charts = () => {
         };
       })
       .filter(Boolean);
-  }, [taskData,filter]);
+  }, [taskData, filter]);
 
-  const min = Math.min(...processedData.map((item: any) => item?.time));
-  const max = Math.max(...processedData.map((item: any) => item?.time));
+  const min = Math.min(...processedData.map((item: any) => item?.hours));
+  const max = Math.max(...processedData.map((item: any) => item?.hours));
+  const total:number =useMemo(()=>processedData.reduce(
+    (acc: number, val: ProcessedData) => {
+      return acc + val.hours ;
+    },0 
+  ),[processedData]);
 
   return (
     <div className="!h-100">
-      <h4 className="!text-2xl !font-semibold !p-3 !w-full !text-center">
+      <h4 className="!text-2xl !font-semibold !py-8 !w-full !text-center">
         Task Performance Tracker 🚀
       </h4>
-      <div className="flex flex-row max-lg:flex-col !w-full !items-center">
-        <div className="!my-3 !p-3 !h-full">
+      <div className="flex flex-row max-lg:flex-col !w-full !text-center lg:!justify-center lg:gap-x-16">
+        <div className="!my-2 !p-3 !h-full">
           <div className="!items-end">
             <select
               className="border p-2 rounded"
@@ -205,8 +170,6 @@ const Charts = () => {
               <option value="completed">Completed</option>
             </select>
           </div>
-
-          {/* <ResponsiveContainer width="100%" height="100%"> */}
           <LineChart
             width={700}
             height={600}
@@ -245,9 +208,7 @@ const Charts = () => {
             />
             {/* <Line type="monotone" dataKey="uv" stroke="#82ca9d" /> */}
           </LineChart>
-          {/* </ResponsiveContainer> */}
         </div>
-
         <div className="flex flex-col max-lg:flex-row justify-center">
           <div className="grid grid-cols-2 gap-4 my-4">
             <div className="bg-blue-100 p-4 rounded-lg h-40 w-40 text-center justify-center flex flex-col">
@@ -256,7 +217,7 @@ const Charts = () => {
             </div>
             <div className="bg-green-100 p-4 rounded-lg  h-40 w-40 text-center justify-center flex flex-col">
               <h3 className="text-lg font-semibold">Avg. Time Taken</h3>
-              {/* <p className="text-xl">{(totalHours / taskData.length).toFixed(2)} hours</p> */}
+              <p className="text-xl">{(total / processedData.length).toFixed(2)} hours</p>
             </div>
             <div className="bg-yellow-100 p-4 rounded-lg  h-40 w-40 text-center justify-center flex flex-col">
               <h3 className="text-lg font-semibold">Longest Task</h3>
@@ -270,19 +231,21 @@ const Charts = () => {
         </div>
       </div>
       <div className="!m-5">
-      {/* <Table.ScrollArea borderWidth="1px" rounded="md" height="260px"> */}
-
-      <Table.Root size="sm" striped className="!w-full border-collapse border">
-      <Table.Header>
-      <Table.Row bg="bg.subtle">
-      <Table.ColumnHeader>Task</Table.ColumnHeader>
-          <Table.ColumnHeader>Created At</Table.ColumnHeader>
-          <Table.ColumnHeader>Status</Table.ColumnHeader>
-          <Table.ColumnHeader >Description</Table.ColumnHeader>
-        </Table.Row>
-      </Table.Header>
-      <Table.Body>
-      {/* <table className="min-w-full border-collapse border">
+        <Table.Root
+          size="sm"
+          striped
+          className="!w-full border-collapse border"
+        >
+          <Table.Header>
+            <Table.Row bg="bg.subtle">
+              <Table.ColumnHeader>Task</Table.ColumnHeader>
+              <Table.ColumnHeader>Created At</Table.ColumnHeader>
+              <Table.ColumnHeader>Status</Table.ColumnHeader>
+              <Table.ColumnHeader>Description</Table.ColumnHeader>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {/* <table className="min-w-full border-collapse border">
         <thead>
           <tr>
             <th className="border p-2">Task</th>
@@ -292,27 +255,23 @@ const Charts = () => {
           </tr>
         </thead>
         <tbody> */}
-          {taskData.map((task: any) => (
-            <Table.Row key={task.title} className="border">
-              <Table.Cell className="border p-2">{task.title}</Table.Cell>
-              <Table.Cell className="border p-2">
-                {new Date(task?.createdAt).toLocaleString()}
-              </Table.Cell>
-              <Table.Cell className="border p-2">
-                {task.isCompleted ? "Completed" : "Pending"}
-              </Table.Cell>
-              <Table.Cell className="border p-2">{task.desc}</Table.Cell>
-             
-            </Table.Row>
-          ))}
+            {taskData.map((task: any) => (
+              <Table.Row key={task.title} className="border">
+                <Table.Cell className="border p-2">{task.title}</Table.Cell>
+                <Table.Cell className="border p-2">
+                  {new Date(task?.createdAt).toLocaleString()}
+                </Table.Cell>
+                <Table.Cell className="border p-2">
+                  {task.isCompleted ? "Completed" : "Pending"}
+                </Table.Cell>
+                <Table.Cell className="border p-2">{task.desc}</Table.Cell>
+              </Table.Row>
+            ))}
           </Table.Body>
-          </Table.Root>
-          {/* </Table.ScrollArea> */}
-        {/* </tbody>
-      </table> */}
+        </Table.Root>
       </div>
     </div>
   );
 };
 
-export default Charts;
+export default Analysis;

@@ -26,7 +26,7 @@
 import { Button, CloseButton, Flex, Text } from "@chakra-ui/react";
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
-import { removeTask } from "./Redux/reducers/tasks/TaskSlice";
+import { removeTask } from "../../Redux/reducers/tasks/TaskSlice";
 import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import { FaWindowClose } from "react-icons/fa";
@@ -36,11 +36,13 @@ const KanbanCard = ({
   index,
   desc,
   parent,
+  user
 }: {
   title: string;
   index: number;
   desc: string;
   parent: string;
+  user:string
 }) => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: title,
@@ -49,6 +51,7 @@ const KanbanCard = ({
       desc,
       index,
       parent,
+      user
     },
   });
   const style = {
@@ -79,6 +82,7 @@ const KanbanCard = ({
     //   </div>
     // </Flex>
     <div>
+      
       <div
         className="flex flex-row !relative bg-gray-100 !rounded-xl !m-3 !p-2 !py-3 !overflow-y-auto box-shadow shadow shadow-[0px_0px_5px_2px #2121213b]"
         style={{ transform: style.transform }}
@@ -86,6 +90,7 @@ const KanbanCard = ({
         {...attributes}
         ref={setNodeRef}
       >
+         
         <div
           draggable={false}
           onPointerDown={(e) => e.stopPropagation()}
@@ -99,12 +104,22 @@ const KanbanCard = ({
               toast.error("Task Deleted Successfully!",{id:index.toString()});
             }}
           />
+          
         </div>
-
+       
         {/* </div> */}
         <div className="flex flex-col !text-start !w-full">
+          <div className="flex  !item-end !justify-end !mt-2 absolute !right-2 ">
+          {user && <div
+            className={`bg-gray-700 !w-10 !h-10 !p-2 !text-white !rounded-full !capitalize !text-center relative !self-end !justify-end`}
+            // onClick={()=>setSelectedUser(selectedUser!==user?user:"")}
+          >
+            <h3>{user[0]}</h3>{" "}
+          </div>}
+          </div>
           {" "}
           <div className="!my-2">
+         
             <h5>Title: {title}</h5>
           </div>
           <div className="!my-2">

@@ -7,7 +7,8 @@ interface Task {
   isPending: boolean;
   inProgress: boolean;
   isCompleted: boolean;
-  createdAt:Date
+  createdAt:Date,
+  assignee:string
 }
 
 const initialState = {

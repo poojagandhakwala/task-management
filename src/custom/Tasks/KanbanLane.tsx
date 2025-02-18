@@ -2,7 +2,7 @@
 import { Flex, Text } from "@chakra-ui/react";
 import { useDroppable } from "@dnd-kit/core";
 import KanbanCard from "./Kanban"
-import { Cards } from "./types";
+import { Cards } from "../../types";
 interface KanbanLaneProps {
   title: string;
   items: Cards[];
@@ -30,6 +30,7 @@ export default function KanbanLane({ title, items }: KanbanLaneProps) {
             key={key} 
             index={item.id} 
             parent={title} 
+            user={item.assignee}
           />
         ))}
       </Flex>

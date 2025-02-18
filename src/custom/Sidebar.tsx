@@ -1,4 +1,7 @@
-import { FaCloud, FaCogs, FaCompass, FaServer, FaTasks, FaUsers } from "react-icons/fa";
+import { FaCloud, FaCogs, FaCompass, FaDropbox, FaIcons, FaServer, FaTasks, FaUsers } from "react-icons/fa";
+import { RxDashboard } from "react-icons/rx";
+import { MdAnalytics, MdOutlineAnalytics } from "react-icons/md";
+
 import { CSSTransition } from "react-transition-group";
 
 interface SidebarProps {
@@ -8,10 +11,10 @@ interface SidebarProps {
 const Sidebar = ({ isOpen }: SidebarProps) => {
 
     const menuItems = [
-        { title: "Dashboard", icon: FaCompass },
-        { title: "Users", icon: FaUsers },
+        { title: "Dashboard", icon: RxDashboard },
         { title: "Tasks", icon: FaTasks},
-        { title: "Analysis", icon: FaCogs },
+        { title: "Users", icon: FaUsers },
+        { title: "Analysis", icon: MdOutlineAnalytics },
         { title: "Server list", icon: FaServer }
       ];
 

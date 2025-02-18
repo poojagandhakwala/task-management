@@ -10,10 +10,11 @@ import { Provider } from "react-redux";
 import { store, persistor } from "./Redux/Store";
 import { PersistGate } from "redux-persist/integration/react";
 import Layout from "./Layout";
-import Charts from "./custom/Charts.js";
+import Analysis from "./custom/Analysis.tsx";
+import Users from "./custom/Users.tsx";
 
-const Dashboard = React.lazy(() => import("./custom/Dashboard.js"));
-const KanbanBoard = React.lazy(() => import("./KanbanBoard.js"));
+const Dashboard = React.lazy(() => import("./custom/Dashboard.tsx"));
+const KanbanBoard = React.lazy(() => import("./custom/Tasks/KanbanBoard.tsx"));
 
 const App = () => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
@@ -66,11 +67,12 @@ const App = () => {
                     <KanbanBoard />
                 }
               />
+              <Route path="/users" element={<Users/>}/>
               <Route
                 path="/analysis"
                 element={
                   
-                    <Charts />
+                    <Analysis />
                 }
               />
               <Route

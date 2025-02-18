@@ -6,4 +6,5 @@ export interface Cards {
   inProgress: boolean;
   isCompleted: boolean;
   createdAt: Date;
+  assignee:string
 }
