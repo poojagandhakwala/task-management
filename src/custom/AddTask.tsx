@@ -1,3 +1,5 @@
+import { addTask } from "@/Redux/reducers/tasks/TaskSlice";
+import { addUser } from "@/Redux/reducers/users/UserSlice";
 import {
   Flex,
   Text,
@@ -12,24 +14,93 @@ import {
   PopoverBody,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
 
-export default function AddCard({
+export default function AddTask({
   addCard,
 }: {
   addCard: (title: string, desc: string,user:string) => void;
 }) {
+  const tasks=useSelector((state:any)=>state.tasks.taskList)
   const [title, setTitle] = useState<string>("");
   const [desc, setDesc] = useState<string>("");
   const [user, setUser] = useState<string>("");
-  const users = useSelector((state: any) => state.tasks.taskList)
-    .map((item: any) => item.assignee)
-    .filter((assignee: any) => assignee !== undefined);
+  const users = useSelector((state: any) => state.users.usersList);
+
+  const dispatch=useDispatch(); 
+
+  const addNewTask = (title: string, desc: string, user:string) => {
+    if (!title || !desc) {
+      toast("Please add Title and Description!", { icon: "⚠️" });
+    } else {
+      // if user not exist then add user
+      const existingUser=users.filter((item:Record<string,string>)=>item.name.toLowerCase().includes(user.toLowerCase()))
+      if(existingUser.length===0){
+        console.log("in if")
+        dispatch(addUser({id:users.length,name:user}))
+      }
+      toast.promise(
+        new Promise((resolve) =>
+          setTimeout(() => {
+            dispatch(
+              addTask({
+                id: tasks.length,
+                title,
+                desc,
+                isPending: true,
+                inProgress: false,
+                isCompleted: false,
+                createdAt: new Date().toISOString(),
+                assignee: user,
+              })
+            );
+            resolve("Task added");
+          }, 1000)
+        ),
+        {
+          loading: "Adding...",
+          success: "Task added successfully",
+          error: "Error while adding task!",
+        }
+      );
+    }
+    // else{
+    //   console.log("in else payload = ", users.length,user)
+    //   dispatch(addUser({id:users.length,name:user}))
+
+    //   toast.promise(
+    //     new Promise((resolve) =>
+    //       setTimeout(() => {
+    //         dispatch(
+    //           addTask({
+    //             id: tasks.length,
+    //             title,
+    //             desc,
+    //             isPending: true,
+    //             inProgress: false,
+    //             isCompleted: false,
+    //             createdAt: new Date().toISOString(),
+    //             assignee: user,
+    //           })
+    //         );
+    //         resolve("Task added");
+    //       }, 1000)
+    //     ),
+    //     {
+    //       loading: "Adding...",
+    //       success: "Task added successfully",
+    //       error: "Error while adding task!",
+    //     }
+    //   );
+    // }
+    
+  };
+
+
   return (
-    <div className="!font-semibold !text-xl !text-left !gap-4 flex flex-col !h-100">
-      {/* <Text className="!font-semibold !text-xl !text-left" textAlign="center">
-        Task Name
-      </Text> */}
+    <div className="!font-semibold !text-xl !text-left !gap-4 flex flex-col !h-100 !w-full">
+   
       <Input
         type="text"
         // flex="4"
@@ -37,9 +108,6 @@ export default function AddCard({
         value={title}
         placeholder="Task"
       />
-      {/* <Text className="!font-semibold !text-xl !text-left" textAlign="center">
-        Description
-      </Text> */}
       <Textarea
         // flex="4"
         onChange={(e) => setDesc(e.target.value)}
@@ -62,16 +130,12 @@ export default function AddCard({
         <PopoverContent width="auto" className="!w-full">
           <PopoverArrow />
           <PopoverBody>
-            {users
-              .filter((item: string) =>
-                item.toLowerCase().includes(user.toLowerCase())
-              )
-              .map((user: string) => (
-                <p>{user}</p>
+            {users.map((user:any,index:number) => (
+                <p key={index}>{user.name}</p>
               ))}
-            {!users.filter((item: string) =>
-              item.toLowerCase().includes(user.toLowerCase())
-            ).length && <p>{user}</p>}
+            {/* {!users.filter((item: string) =>
+              item.includes(user.toLowerCase())
+            ).length && <p>{user}</p>} */}
           </PopoverBody>
         </PopoverContent>
       </PopoverRoot>
@@ -84,7 +148,7 @@ export default function AddCard({
           setTitle("");
           setDesc("");
           setUser("")
-          addCard(title, desc,user);
+          addNewTask(title,desc,user)
         }}
       >
         Add Task

@@ -230,7 +230,7 @@ const Analysis = () => {
           </div>
         </div>
       </div>
-      <div className="!m-5">
+      <div className="!m-5 !py-8">
         <Table.Root
           size="sm"
           striped
@@ -239,32 +239,25 @@ const Analysis = () => {
           <Table.Header>
             <Table.Row bg="bg.subtle">
               <Table.ColumnHeader>Task</Table.ColumnHeader>
-              <Table.ColumnHeader>Created At</Table.ColumnHeader>
+              <Table.ColumnHeader>Assignee</Table.ColumnHeader>
               <Table.ColumnHeader>Status</Table.ColumnHeader>
               <Table.ColumnHeader>Description</Table.ColumnHeader>
+              <Table.ColumnHeader>Date</Table.ColumnHeader>
             </Table.Row>
           </Table.Header>
-          <Table.Body>
-            {/* <table className="min-w-full border-collapse border">
-        <thead>
-          <tr>
-            <th className="border p-2">Task</th>
-            <th className="border p-2">Created At</th>
-            <th className="border p-2">Description</th>
-            <th className="border p-2">Status</th>
-          </tr>
-        </thead>
-        <tbody> */}
+          <Table.Body>          
             {taskData.map((task: any) => (
               <Table.Row key={task.title} className="border">
                 <Table.Cell className="border p-2">{task.title}</Table.Cell>
-                <Table.Cell className="border p-2">
-                  {new Date(task?.createdAt).toLocaleString()}
-                </Table.Cell>
+                <Table.Cell className="border p-2">{task.assignee}</Table.Cell>
+               
                 <Table.Cell className="border p-2">
                   {task.isCompleted ? "Completed" : "Pending"}
                 </Table.Cell>
                 <Table.Cell className="border p-2">{task.desc}</Table.Cell>
+                <Table.Cell className="border p-2">
+                  {new Date(task?.createdAt).toLocaleString()}
+                </Table.Cell>
               </Table.Row>
             ))}
           </Table.Body>

@@ -13,7 +13,7 @@ export default function KanbanLane({ title, items }: KanbanLaneProps) {
     id: title,
   });
   return (
-    <Flex  padding="5" flexDirection="column" minH="25rem" minW="18rem" className="!max-w-full" >
+    <Flex  padding="5" flexDirection="column" minH="25rem" minW="12rem"  className="!w-full !max-w-full" >
       <Text fontWeight="bold">{title}</Text>
       <Flex
         ref={setNodeRef}

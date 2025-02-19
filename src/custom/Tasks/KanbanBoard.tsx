@@ -16,9 +16,8 @@ import {
 import Users from "../UsersList.tsx";
 
 export default function KanbanBoard() {
-  const users = useSelector((state: any) => state.tasks.taskList)
-    .map((item: any) => item.assignee)
-    .filter((assignee: any) => assignee !== undefined);
+
+  // const users = useSelector((state: any) => state.users.usersList || []);
 
   const todoItems =
     useSelector((state: any) =>
@@ -57,7 +56,7 @@ export default function KanbanBoard() {
                 isPending: true,
                 inProgress: false,
                 isCompleted: false,
-                createdAt: new Date(),
+                createdAt: new Date().toISOString(),
                 assignee: user,
               })
             );
@@ -72,15 +71,15 @@ export default function KanbanBoard() {
       );
     } 
   };
-
+  // console.log("user = ",users)
   return (
     <div className="!p-4 !px-8 !w-full flex flex-col !overflow-x-hidden">
       <Text fontSize="2xl" padding="5" fontWeight="bold">
         Task Board
       </Text>
-      <div className="flex !flex-col !w-screen !px-2 !mt-4">
-        <div className="!w-3/4 ">
-          <Users users={users} selectedUser={selectedUser} setSelectedUser={handleSelectedUser} />
+      <div className="flex max-lg:flex-col flex-row !w-full !px-2 !mt-4 !gap-x-8">
+        <div className="!w-3/4">
+          <Users  selectedUser={selectedUser} setSelectedUser={handleSelectedUser} />
           <DndContext
             collisionDetection={rectIntersection}
             onDragMove={() => {
@@ -119,7 +118,7 @@ export default function KanbanBoard() {
             </Flex>
           </DndContext>
         </div>
-        <div className="!w-1/4 !fixed !self-end !h-full !right-10 !mt-5">
+        <div className="!w-1/4 !max-w-full !h-full !mt-5">
           {" "}
           <AddCard addCard={addNewCard} />{" "}
         </div>
