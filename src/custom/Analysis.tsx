@@ -146,14 +146,16 @@ const Analysis = () => {
 
   const min = Math.min(...processedData.map((item: any) => item?.hours));
   const max = Math.max(...processedData.map((item: any) => item?.hours));
-  const total:number =useMemo(()=>processedData.reduce(
-    (acc: number, val: ProcessedData) => {
-      return acc + val.hours ;
-    },0 
-  ),[processedData]);
+  const total: number = useMemo(
+    () =>
+      processedData.reduce((acc: number, val: ProcessedData) => {
+        return acc + val.hours;
+      }, 0),
+    [processedData]
+  );
 
   return (
-    <div className="!h-100">
+    <div className="!h-100 !text-black">
       <h4 className="!text-2xl !font-semibold !py-8 !w-full !text-center">
         Task Performance Tracker 🚀
       </h4>
@@ -217,7 +219,9 @@ const Analysis = () => {
             </div>
             <div className="bg-green-100 p-4 rounded-lg  h-40 w-40 text-center justify-center flex flex-col">
               <h3 className="text-lg font-semibold">Avg. Time Taken</h3>
-              <p className="text-xl">{(total / processedData.length).toFixed(2)} hours</p>
+              <p className="text-xl">
+                {(total / processedData.length).toFixed(2)} hours
+              </p>
             </div>
             <div className="bg-yellow-100 p-4 rounded-lg  h-40 w-40 text-center justify-center flex flex-col">
               <h3 className="text-lg font-semibold">Longest Task</h3>
@@ -245,12 +249,12 @@ const Analysis = () => {
               <Table.ColumnHeader>Date</Table.ColumnHeader>
             </Table.Row>
           </Table.Header>
-          <Table.Body>          
+          <Table.Body>
             {taskData.map((task: any) => (
               <Table.Row key={task.title} className="border">
                 <Table.Cell className="border p-2">{task.title}</Table.Cell>
                 <Table.Cell className="border p-2">{task.assignee}</Table.Cell>
-               
+
                 <Table.Cell className="border p-2">
                   {task.isCompleted ? "Completed" : "Pending"}
                 </Table.Cell>

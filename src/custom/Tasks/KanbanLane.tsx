@@ -14,7 +14,7 @@ export default function KanbanLane({ title, items }: KanbanLaneProps) {
   });
   return (
     <Flex  padding="5" flexDirection="column" minH="25rem" minW="12rem"  className="!w-full !max-w-full" >
-      <Text fontWeight="bold">{title}</Text>
+      <Text fontWeight="bold" className="!text-black">{title}</Text>
       <Flex
         ref={setNodeRef}
         backgroundColor="gray.200"

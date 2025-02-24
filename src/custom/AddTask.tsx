@@ -37,7 +37,6 @@ export default function AddTask({
       // if user not exist then add user
       const existingUser=users.filter((item:Record<string,string>)=>item.name.toLowerCase().includes(user.toLowerCase()))
       if(existingUser.length===0){
-        console.log("in if")
         dispatch(addUser({id:users.length,name:user}))
       }
       toast.promise(
@@ -100,7 +99,7 @@ export default function AddTask({
 
   return (
     <div className="!font-semibold !text-xl !text-left !gap-4 flex flex-col !h-100 !w-full">
-   
+      <h4>Add New Task</h4>
       <Input
         type="text"
         // flex="4"

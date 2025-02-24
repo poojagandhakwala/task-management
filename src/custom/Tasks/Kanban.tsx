@@ -36,13 +36,13 @@ const KanbanCard = ({
   index,
   desc,
   parent,
-  user
+  user,
 }: {
   title: string;
   index: number;
   desc: string;
   parent: string;
-  user:string
+  user: string;
 }) => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: title,
@@ -51,7 +51,7 @@ const KanbanCard = ({
       desc,
       index,
       parent,
-      user
+      user,
     },
   });
   const style = {
@@ -59,30 +59,7 @@ const KanbanCard = ({
   };
   const dispatch = useDispatch();
   return (
-    // <Flex
-    //   flexDirection="row"
-    //   padding="3"
-    //   backgroundColor="white"
-    //   margin="2"
-    //   borderRadius="8"
-    //   border="2px solid gray.500"
-    //   boxShadow="0px 0px 5px 2px #2121213b"
-    //   transform={style.transform}
-    //   {...listeners}
-    //   {...attributes}
-    //   ref={setNodeRef}
-    // >
-    //   <div className="relative !flex">
-    //   <CloseButton className="!absolutetop-2!right-10"/>
-    //   </div>
-    //   <div>
-    //   <Text>{title}</Text>
-    //   <br/>
-    //   <Text>{desc}</Text>
-    //   </div>
-    // </Flex>
     <div>
-      
       <div
         className="flex flex-row !relative bg-gray-100 !rounded-xl !m-3 !p-2 !py-3 !overflow-y-auto box-shadow shadow shadow-[0px_0px_5px_2px #2121213b]"
         style={{ transform: style.transform }}
@@ -90,7 +67,6 @@ const KanbanCard = ({
         {...attributes}
         ref={setNodeRef}
       >
-         
         <div
           draggable={false}
           onPointerDown={(e) => e.stopPropagation()}
@@ -101,29 +77,30 @@ const KanbanCard = ({
             role="button"
             onClick={() => {
               dispatch(removeTask(index));
-              toast.error("Task Deleted Successfully!",{id:index.toString()});
+              toast.error("Task Deleted Successfully!", {
+                id: index.toString(),
+              });
             }}
           />
-          
         </div>
-       
+
         {/* </div> */}
-        <div className="flex flex-col !text-start !w-full">
+        <div className="flex flex-col !text-start !w-full !text-black">
           <div className="flex  !item-end !justify-end !mt-2 absolute !right-2 ">
-          {user && <div
-            className={`bg-gray-700 !w-10 !h-10 !p-2 !text-white !rounded-full !capitalize !text-center relative !self-end !justify-end`}
-            // onClick={()=>setSelectedUser(selectedUser!==user?user:"")}
-          >
-            <h3>{user[0]}</h3>{" "}
-          </div>}
-          </div>
-          {" "}
+            {user && (
+              <div
+                className={`bg-gray-700 !w-10 !h-10 !p-2 !text-white !rounded-full !capitalize !text-center relative !self-end !justify-end`}
+                // onClick={()=>setSelectedUser(selectedUser!==user?user:"")}
+              >
+                <h3 className="!text-white">{user[0]}</h3>{" "}
+              </div>
+            )}
+          </div>{" "}
           <div className="!my-2">
-         
-            <h5>Title: {title}</h5>
+            <h5 className="!text-black">Title: {title}</h5>
           </div>
           <div className="!my-2">
-            <h5>Description: {desc}</h5>
+            <h5 className="!text-black">Description: {desc}</h5>
           </div>
         </div>
       </div>

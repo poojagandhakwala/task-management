@@ -12,6 +12,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import Layout from "./Layout";
 import Analysis from "./custom/Analysis.tsx";
 import Users from "./custom/Users.tsx";
+import { FaSpinner } from "react-icons/fa";
 
 const Dashboard = React.lazy(() => import("./custom/Dashboard.tsx"));
 const KanbanBoard = React.lazy(() => import("./custom/Tasks/KanbanBoard.tsx"));
@@ -34,11 +35,14 @@ const App = () => {
           </div>
         </div>
         <div className="!mx-5 !align-items-center !w-2/3"> */}
-
+   
         <React.Suspense
           fallback={
-            <div className="flex !justify-center !align-items-center !text-center !h-screen">
-              <Spinner className="!text-4xl text-blue-700 !self-center" />
+            <div className="flex !justify-center !items-center !text-center !h-screen !w-screen">
+              <p className="text-2xl">
+                <FaSpinner className="!text-4xl text-blue-700 !self-center !animate-spin" />
+                Loading...
+              </p>
             </div>
           }
         >
@@ -60,21 +64,9 @@ const App = () => {
                   </>
                 }
               />
-              <Route
-                path="/tasks"
-                element={
-                  
-                    <KanbanBoard />
-                }
-              />
-              <Route path="/users" element={<Users/>}/>
-              <Route
-                path="/analysis"
-                element={
-                  
-                    <Analysis />
-                }
-              />
+              <Route path="/tasks" element={<KanbanBoard />} />
+              <Route path="/users" element={<Users />} />
+              <Route path="/analysis" element={<Analysis />} />
               <Route
                 path="/*"
                 element={

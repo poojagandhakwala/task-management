@@ -74,7 +74,7 @@ export default function KanbanBoard() {
   // console.log("user = ",users)
   return (
     <div className="!p-4 !px-8 !w-full flex flex-col !overflow-x-hidden">
-      <Text fontSize="2xl" padding="5" fontWeight="bold">
+      <Text fontSize="2xl" padding="5" fontWeight="bold" className="!text-black">
         Task Board
       </Text>
       <div className="flex max-lg:flex-col flex-row !w-full !px-2 !mt-4 !gap-x-8">

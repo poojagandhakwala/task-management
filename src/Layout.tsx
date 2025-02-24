@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "./custom/Sidebar";
 import { BsArrowLeftCircleFill } from "react-icons/bs";
@@ -6,9 +6,23 @@ import { BsArrowLeftCircleFill } from "react-icons/bs";
 const Layout = () => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
 
+  const handleResize = () => {
+    if (window.innerWidth <= 768) {
+      setIsOpen(false);
+    } else {
+      setIsOpen(true);
+    }
+  };
+
+  useEffect(() => {
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <div className="flex flex-row !w-screen">
-      <div className="!w-40 !h-screen !fixed">
+      <div className={`${isOpen && "!w-60"} !h-screen !fixed`}>
         <Sidebar isOpen={isOpen} />
         <div className=" ">
           <BsArrowLeftCircleFill
@@ -17,7 +31,7 @@ const Layout = () => {
           />
         </div>
       </div>
-      <div className="!w-full !ml-40 !h-screen !overflow-y-auto">
+      <div className={`!w-full ${isOpen ? "!ml-60" :"!ml-10"} !h-screen !overflow-y-auto bg-white`}>
         <Outlet />
       </div>
     </div>
